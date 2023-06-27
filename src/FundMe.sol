@@ -24,7 +24,7 @@ contract FundMe {
     address private immutable i_owner;
     address[] private s_funders;
     mapping(address => uint256) private s_AddressToAmountFunded;
-    uint256 public constant MINIMUM_USD = 50 * 10 ** 18;
+    uint256 public constant MINIMUM_USD = 5 * 10 ** 18;
 
     AggregatorV3Interface private s_priceFeed;
 
@@ -44,9 +44,9 @@ contract FundMe {
     //// private
     //// view / pure
 
-    constructor(address __priceFeedAddress__) {
+    constructor(address _priceFeedAddress) {
         i_owner = msg.sender;
-        s_priceFeed = AggregatorV3Interface(__priceFeedAddress__);
+        s_priceFeed = AggregatorV3Interface(_priceFeedAddress);
     }
 
     // receive() external payable {
@@ -123,5 +123,9 @@ contract FundMe {
 
     function getPriceFeed() public view returns (AggregatorV3Interface) {
         return s_priceFeed;
+    }
+
+    function getVersion() public view returns (uint256) {
+        return s_priceFeed.version();
     }
 }
